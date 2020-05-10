@@ -4,7 +4,7 @@ export const ACCESS_TOKEN = 'accessToken';
 export const POLL_LIST_SIZE = 30;
 
 export const ALBUM_DSCRIPTION_MAX_LENGTH = 140;
-export const ALBUM_NAME_MAX_LENGTH = 20;
+export const ALBUM_NAME_MAX_LENGTH = 40;
 
 export const NAME_MIN_LENGTH = 2;
 export const NAME_MAX_LENGTH = 40;

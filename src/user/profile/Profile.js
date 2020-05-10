@@ -18,17 +18,16 @@ const TabPane = Tabs.TabPane;
 class Profile extends Component {
     constructor(props) {
         super(props);
-        const displayAlbum = {
-            userId: 1,
-            albumId: 1,
-            albumName: 'Album'
-        }
         this.state = {
             owner: false,
             user: null,
             tabIndex: "1",
             isLoading: false,
-            displayAlbum: displayAlbum
+            displayAlbum: {
+                userId: 1,
+                albumId: 1,
+                albumName: 'Album'
+            }
         }
         this.loadUserProfile = this.loadUserProfile.bind(this);
 
@@ -216,6 +215,18 @@ class Profile extends Component {
 
     componentDidMount() {
         const username = this.props.match.params.username;
+        var albumid = this.props.match.params.albumid;
+        if (albumid != undefined){ 
+            this.props.history.push("/users/" + username);
+            this.setState({
+                tabIndex: "2",
+                displayAlbum: {
+                    albumId: albumid,
+                    albumName: "Last updated Album",
+                }
+            });
+        }
+
         this.loadUserProfile(username);
     }
 
@@ -272,7 +283,7 @@ class Profile extends Component {
                                     onTabClick={this.goToSelector}
                                     activeKey={this.state.tabIndex}
                                     >
-                                    <TabPane tab={`Albums`} key="1">
+                                    <TabPane tab={this.state.owner ? 'Your Albums' : `User Albums`} key="1">
                                         {/*<PollList username={this.props.match.params.username} type="USER_CREATED_POLLS" />*/}
                                         <AlbumsView isOwner={this.state.owner} username={this.state.user.username} onClick={this.AlbumSelected} onAction={this.AlbumDeleted}/>
                                     </TabPane>

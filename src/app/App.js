@@ -18,6 +18,7 @@ import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
 import PrivateRoute from '../common/PrivateRoute';
+import LastView from '../views/LastView/LastView'
 
 import { Layout, notification } from 'antd';
 const { Content } = Layout;
@@ -102,15 +103,17 @@ class App extends Component {
             <div className="container">
               <Switch>      
                 <Route exact path="/" 
-                  render={(props) => <PollList isAuthenticated={this.state.isAuthenticated} 
-                      currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}>
-                </Route>
+                  render={(props) => <LastView isAuthenticated={this.state.isAuthenticated} 
+                      currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
-                <Route path="/signup" component={Signup}></Route>
+                <Route path="/signup" 
+                  component={Signup}></Route>
+                <Route path="/users/:username/:albumid/" 
+                  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></Route>
                 <Route path="/users/:username" 
-                  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
-                </Route>
+                  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}></Route>
+                  
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/upload" component={NewPoll} handleLogout={this.handleLogout} currentUser={this.state.currentUser}></PrivateRoute>
                 <Route component={NotFound}></Route>
               </Switch>

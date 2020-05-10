@@ -145,19 +145,41 @@ export function deleteAlbum(albumId) {
 export function toggleAlbumPrivate(albumId) {
     return request({
         url: API_BASE_URL + "/albums/toggle-private/" + albumId,
-        method: 'POST'
+        method: 'PUT'
     });
 }   
 
 export function getUserImages(username, albumId) {
-    // return request({
-    //     url: API_BASE_URL + "/user/" + username + "/album/" + albumId,
-    //     method: 'GET'
-    // });
     return request({
-        url: API_BASE_URL + "/albums/album/" + albumId,
+        url: API_BASE_URL + "/user/" + username + "/album/" + albumId,
         method: 'GET'
     });
+    // return request({
+    //     url: API_BASE_URL + "/albums/album/" + albumId,
+    //     method: 'GET'
+    // });
+}
+
+export function getLastImages() {
+    return request({
+        url: API_BASE_URL + "/images/last-added",
+        method: 'GET'
+    });
+    // return request({
+    //     url: API_BASE_URL + "/albums/album/" + albumId,
+    //     method: 'GET'
+    // });
+}
+
+export function getLastImagesAmount(amount) {
+    return request({
+        url: API_BASE_URL + "/images/last-added?amount=" + amount,
+        method: 'GET'
+    });
+    // return request({
+    //     url: API_BASE_URL + "/albums/album/" + albumId,
+    //     method: 'GET'
+    // });
 }
 
 export function uploadImage(imageData) {

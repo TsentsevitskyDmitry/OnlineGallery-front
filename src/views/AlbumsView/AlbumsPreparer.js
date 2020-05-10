@@ -1,4 +1,4 @@
-import { tilesGrid } from '../imagesTilesGrid';
+import { tilesGrid } from '../albumsTilesGrid';
 // import { testAlbums } from "../../albums";
 
 export const prepareAlbums = (response) => {

@@ -3,16 +3,18 @@ import GalerryContainer from './GalerryContainer';
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import ColorLensIcon from '@material-ui/icons/ColorLens';
+import { NavLink } from 'react-router-dom'
 
-const ImagesContainer = ({ isOwner, shape, imgComponent, view, imgSrc, onClick, onAction}) => {
-
+const LastContainer = ({ isOwner, shape, imgComponent, view, imgSrc, onClick, onAction}) => {
   const ConcreteContainer = (
               <div style={{ paddingLeft: 10}}>
                 <CardContent>
-                  <Typography gutterBottom variant="subtitle2" component="h2">
+                  <Typography gutterBottom variant="subtitle2">
                     {view.name} 
-                    {view.private ? <span style={{color: 'grey'}}> [private]</span> : null}
                   </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                  	<NavLink to={"/users/" + view.username + "/" + view.albumId} activeClassName="active">@{view.username}</NavLink>
+                </Typography>
                 </CardContent>
               </div>
     );
@@ -29,4 +31,4 @@ const ImagesContainer = ({ isOwner, shape, imgComponent, view, imgSrc, onClick, 
             onAction={onAction}/>;
 };
 
-export default ImagesContainer;
+export default LastContainer;

@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import Dropzone from 'react-dropzone';
-
-class ImageUploader extends Component {
+import React, { Component } from 'react'
+import {DropzoneArea} from 'material-ui-dropzone'
+import Button from '@material-ui/core/Button';
+ 
+export default class ImageUploader extends Component{
   constructor({onLoad}) {
     super();
     this.onDrop = (files) => {
@@ -20,21 +21,16 @@ class ImageUploader extends Component {
   }
 }
 
-  render() {
-
+  render(){
     return (
-      <Dropzone onDrop={this.onDrop} accept='image/*' multiple={false}>
-        {({getRootProps, getInputProps, isDragActive}) => (
-          <section className="container">
-            <div {...getRootProps({className: 'dropzone'})}>
-              <input {...getInputProps()} />
-              <p>{isDragActive ? "Drop it like it's hot!" : 'Click me or drag a file to upload!'}</p>
-            </div>
-          </section>
-        )}
-      </Dropzone>
-    );
+      <div>
+        <DropzoneArea style={{minHeight: 10}}
+          onDrop={this.onDrop}
+          acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
+          filesLimit={1}
+          showPreviewsInDropzone={false}
+          />
+      </div>
+    )
   }
 }
-
-export default ImageUploader;

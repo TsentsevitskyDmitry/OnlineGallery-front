@@ -2,26 +2,29 @@ import React, { Component } from "react";
 import LoadingIndicator  from '../../common/LoadingIndicator';
 import NothingHere from '../../common/NothingHere';
 import ServerError from '../../common/ServerError';
+import { Tabs } from 'antd';
+
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+
 
 import GaleryView from "../GaleryView";
 import Carousel, { Modal, ModalGateway } from "react-images";
-import ImagesContainer from "../../components/ImagesContainer";
-import { getUserImages } from "../../util/APIUtils";
-import { prepareImages } from "./ImagesPreparer";
+import LastContainer from "../../components/LastContainer";
+import { getLastImages, getLastImagesAmount } from "../../util/APIUtils";
+import { prepareLast } from "./LastPreparer";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import FilerobotImageEditor from "filerobot-image-editor";
 
-class ImagesView extends Component {
-    constructor({isOwner, username, albumId, onAction}) {
+class LastView extends Component {
+    constructor({onAction}) {
       super();
         this.state = {
-            isOwner: isOwner,
-            albumId: albumId,
-            username: username,
             onAction: onAction,
             NothingHere: true,
             isLoading: false,
-            images: [],
+            last: [],
             viewerIsOpen: false,
             currentImage: 0,
             editorIsOpen: false,
@@ -30,17 +33,18 @@ class ImagesView extends Component {
         this.loadUserProfile = this.loadUserProfile.bind(this);
     }
 
-    loadUserProfile(username, albumId) {
+    loadUserProfile() {
         this.setState({
             isLoading: true
         });
 
-    getUserImages(username, albumId)
+    getLastImagesAmount(50)
         .then(response => {
-          const images = prepareImages(response);
-            this.setState({
-                images: images,
-                NothingHere: !(images.length),
+          const last = prepareLast(response);
+          console.log();
+          this.setState({
+                last: last,
+                NothingHere: !(last.length),
                 isLoading: false
             });
         }).catch(error => {
@@ -59,7 +63,7 @@ class ImagesView extends Component {
     }
      
     componentDidMount() {
-        this.loadUserProfile(this.state.username, this.state.albumId);
+        this.loadUserProfile();
     }
 
     openLightbox = (event, { photo, index })  => {
@@ -83,27 +87,11 @@ class ImagesView extends Component {
       });
     }; 
 
-    ImageEdit = ( view ) => {
+    ImageEdit = ( event, { view } ) => {
       this.setState({
           editorIsOpen: true,
           editorSrc: view.src,
       });
-    }; 
-
-    ImageAction = (event, { view }) => {
-        confirmAlert({
-          title: 'What to do with the image?',
-          buttons: [
-            {
-              label: 'Delete',
-              onClick: () => setTimeout( () => { this.state.onAction( view ) }, 100)
-            },
-            {
-              label: 'Edit',
-              onClick: () => this.ImageEdit(view)
-            },
-          ]
-        });
     }; 
 
 
@@ -122,17 +110,28 @@ class ImagesView extends Component {
         
           return (
             <div>
+
+                <Container maxWidth="sm" component="main">
+                  <Typography component="h1" variant="h3" align="center" color="textPrimary" gutterBottom  style={{marginTop: "0.35em"}}>
+                    Recent activities
+                  </Typography>
+                  <Typography variant="h5" align="center" color="textSecondary" component="p" style={{marginBottom: "0.35em"}}>
+                    Shot, Save, Edit
+                  </Typography>
+                </Container>
+
               <GaleryView
-                views={this.state.images}
-                Container={ImagesContainer}
+                views={this.state.last}
+                Container={LastContainer}
                 onClick={this.openLightbox}
-                onAction={this.ImageAction}
-                isOwner={this.state.isOwner}
+                onAction={this.ImageEdit}
+                isOwner={true}
               />
+
               <ModalGateway>
                 {this.state.viewerIsOpen ? (
                   <Modal onClose={this.closeLightbox}>
-                    <Carousel currentIndex={this.state.currentImage} views={this.state.images} />
+                    <Carousel currentIndex={this.state.currentImage} views={this.state.last} />
                   </Modal>
                 ) : null}
               </ModalGateway>
@@ -147,4 +146,4 @@ class ImagesView extends Component {
     }
 }
 
-export default ImagesView;
+export default LastView;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { uploadImage } from '../util/APIUtils';
-import { ALBUM_DSCRIPTION_MAX_LENGTH, ALBUM_NAME_MAX_LENGTH } from '../constants';
+import { NAME_MAX_LENGTH } from '../constants';
 import './NewPoll.css';  
 import { Form, Input, Button, Icon, Select, Col, notification, Checkbox } from 'antd';
 import LoadingIndicator  from '../common/LoadingIndicator';
@@ -135,10 +135,10 @@ class CreateAlbum extends Component {
                 validateStatus: 'error',
                 errorMsg: 'Please enter album name!'
             }
-        } else if (nameText.length > ALBUM_NAME_MAX_LENGTH) {
+        } else if (nameText.length > NAME_MAX_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: `Name is too long (Maximum ${ALBUM_NAME_MAX_LENGTH} characters allowed)`
+                errorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed)`
             }    
         } else {
             return {
@@ -185,7 +185,7 @@ class CreateAlbum extends Component {
             album: {
                 albumName: this.state.albums[index].albumName,
                 albumId: this.state.albums[index].albumId,
-                ...this.validateImage(index)
+                ...this.validateAlbum(index)
             }
         });
     };
@@ -193,7 +193,7 @@ class CreateAlbum extends Component {
     createAlbumSelectItems() {
         let items = [];         
             for (let i = 0; i < this.state.albums.length; i++) { 
-                    items.push(<Option className="poll-form-row" value={i}>{this.state.albums[i].albumName}</Option>);   
+                    items.push(<Option value={i}>{this.state.albums[i].albumName}</Option>);   
             }
         return items;
     } 
@@ -229,12 +229,7 @@ class CreateAlbum extends Component {
             <div className="new-poll-container">
                 <h1 className="page-title">Upload Image</h1>
 
-
-
                 <ImageUploader onLoad={this.handleImageChange}/>
-
-
-
 
                 <div className="new-poll-content">
                     <Form onSubmit={this.handleSubmit} className="create-poll-form">
@@ -251,8 +246,7 @@ class CreateAlbum extends Component {
                         <FormItem validateStatus={this.state.album.validateStatus} className="poll-form-row">
                             {/*<InputLabel id="demo-simple-select-helper-label">Age</InputLabel>*/}
                             <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
+    
                               value={this.state.album.albumName}
                               onChange={this.handleAlbumChange}
                             >
@@ -262,9 +256,9 @@ class CreateAlbum extends Component {
                             <FormHelperText>Images will be uploaded to selected album</FormHelperText>
                         </FormItem>
 
-                        <FormItem className="poll-form-row">
+                        {/*<FormItem className="poll-form-row">
                             <Checkbox onChange={this.handleIsPrivateChange}>Make private</Checkbox>
-                        </FormItem>
+                        </FormItem>*/}
 
                         <FormItem className="poll-form-row">
                             <Button type="primary" 
