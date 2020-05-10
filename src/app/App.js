@@ -9,6 +9,7 @@ import {
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 
+import Footer from './Footer';
 import PollList from '../poll/PollList';
 import NewPoll from '../poll/NewPoll';
 import Login from '../user/login/Login';
@@ -100,6 +101,7 @@ class App extends Component {
             onLogout={this.handleLogout} />
 
           <Content className="app-content">
+          <div className="content">
             <div className="container">
               <Switch>      
                 <Route exact path="/" 
@@ -118,6 +120,9 @@ class App extends Component {
                 <Route component={NotFound}></Route>
               </Switch>
             </div>
+          </div>
+            <Footer/>
+
           </Content>
         </Layout>
     );
