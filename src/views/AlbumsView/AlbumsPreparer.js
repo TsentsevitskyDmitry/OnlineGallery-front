@@ -4,8 +4,8 @@ import { tilesGrid } from '../albumsTilesGrid';
 export const prepareAlbums = (response) => {
 	var albums = response.map(function (currentValue, index) { 
 		if (currentValue.label == null){
-			// currentValue.src = "https://www.scrapbookingmecca.com/img/digiscrap/digiscrap.png";
-			currentValue.src = "https://100velikih.com/uploads/images/l/i/t/little_big_my_dick_is_very_big_slava.jpg";
+			currentValue.src = "https://www.sane.org/components/com_easyblog/themes/wireframe/images/placeholder-image.png";
+			//currentValue.src = "https://100velikih.com/uploads/images/l/i/t/little_big_my_dick_is_very_big_slava.jpg";
 			currentValue.label = "Empty";
 		}
 		else{

@@ -38,7 +38,7 @@ class LastView extends Component {
             isLoading: true
         });
 
-    getLastImagesAmount(50)
+    getLastImagesAmount(20)
         .then(response => {
           const last = prepareLast(response);
           console.log();
